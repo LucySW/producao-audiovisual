@@ -34,7 +34,7 @@ Regras vigentes:
 - Premiere é a referência temporal da edição; After recebe os intervalos correspondentes. Existência do arquivo, importação, leitura no host, playback, export e aprovação são evidências diferentes.
 - Um agente por vez escreve no projeto Adobe. Não reverter trabalho de outra pessoa/IA para recuperar uma versão conhecida. Inspecionar diferenças e preservar o estado salvo ou ainda não salvo antes de agir.
 
-**Aprovações usuais:** briefing e mudanças de copy; voz escolhida com amostras; referências reais duvidosas; poucos styleframes; técnico de design; parâmetros/custo de geração; revisão do piloto; export final exato. A autonomia pode amadurecer por regras e resultados aprovados; não é presumida.
+**Aprovações usuais:** briefing e mudanças materiais de copy/sentido; voz escolhida com amostras; referências reais duvidosas; poucos styleframes; técnico de design; parâmetros/custo de geração; revisão do piloto; export final exato. Ajustes técnicos e editoriais equivalentes seguem a delegação delimitada na seção 4.1.2, sem perguntar a cada detalhe. Autonomia não inclui novas promessas, gasto ou desrespeito a uma escolha expressamente fixada pelo cliente.
 
 ## 2. Entrada, arquivos e briefing
 
@@ -147,6 +147,36 @@ Separar locução/diálogo, texto de tela, ação visual e observações técnic
 
 Preservar o roteiro anexado. Se fala e duração não couberem, apresentar a diferença medida e resolver com ajuste aprovado de copy, interpretação, pausas, duração ou nova síntese. Não cortar texto nem acelerar para caber sem critério.
 
+### 4.1.1 Revisão editorial antes de produzir
+
+Um roteiro recebido pode ser um briefing amador, uma proposta ou uma versão aprovada. Identificar **o que foi aprovado e o que está fixo**: mensagem/oferta, locução literal, slogan, lettering específico, storyboard, tom, duração e dados. Arquivo chamado ORIGINAL/FINAL não comprova aprovação. Aprovação da mensagem não fixa automaticamente todo enquadramento; aprovação de um storyboard específico limita a liberdade de substituí-lo. Preservar a fonte e registrar uma revisão de produção vinculada a ela.
+
+Para cada bloco, conferir **fala → intenção → cena → lettering → ação esperada**. Não reproduzir um problema de roteiro só porque estava na tabela. Antes de gastar com voz/imagens/vídeos:
+
+- Definir público, objetivo do vídeo e próxima ação. Comercial de venda, apresentação institucional, demonstração e boas-vindas/tutorial pedem estruturas diferentes; nem todo vídeo depende de emoção ou de protagonista recorrente.
+- Identificar a mensagem principal e a contribuição de cada bloco. A abertura precisa orientar a atenção para o assunto; não impor suspense, slogan genérico ou corte acelerado a todas as marcas.
+- Verificar se a imagem torna uma ação, característica ou relação compreensível. Propor contexto, demonstração, detalhe e consequência quando acrescentarem informação. O que está implícito é hipótese de direção; não autoriza inventar dados sobre a empresa ou resultados do produto.
+- Distinguir informação falada, destaque em tela, legenda e texto obrigatório. Lettering pode resumir, organizar, identificar um benefício ou orientar uma etapa; não precisa transcrever toda a locução. Repetição curta de número, conceito ou CTA pode ser intencional. Não criar concorrência entre leitura, demonstração e fala.
+- Localizar textos fora do bloco correto, repetições sem função, excesso de benefícios, CTA disperso, ressalva distante da promessa e afirmações contraditórias. Dividir informações por momentos; não retirar conteúdos essenciais apenas para deixar a tela bonita.
+- Testar ritmo com leitura/áudio e storyboard temporal. Contagem de palavras sinaliza densidade; não determina duração final. Se a voz já existe, rever distribuição visual sobre o áudio real antes de propor nova síntese. Mudança de duração, locução ou conteúdo continua sujeita ao nível C abaixo.
+- Fazer uma passagem de compreensão: o que a sequência explica só pelas imagens; o que fala e lettering dizem em conjunto; qual informação precisa ser literal. Verificar leitura em tamanho de destino e duração de sustentação real. Não instituir número universal de palavras, segundos por take ou cards por tela.
+
+As referências de [roteiro da Adobe](https://www.adobe.com/creativecloud/video/discover/video-script.html) e [storyboard](https://www.adobe.com/creativecloud/video/discover/storyboarding.html) sustentam objetivo, tradução para planos e refinamento colaborativo. A orientação [ABCD do Google](https://support.google.com/google-ads/answer/14783551?hl=en) destaca atenção, marca, foco da mensagem e direção da ação conforme o objetivo. Adaptar ao briefing/canal; essas fontes não concedem autorização do cliente nem garantem resultado comercial.
+
+### 4.1.2 Autonomia editorial com limites verificáveis
+
+Aplicar a menor mudança que resolva o problema. Usar a autonomia já concedida pelo responsável; na ausência de delegação para algo material, preparar uma proposta concreta. Não perguntar novamente por uma liberdade de execução já autorizada. Neste método, a revisão pode otimizar lettering e ilustração preservando o núcleo aprovado, com estes limites:
+
+| Nível | Exemplos | Conduta |
+|---|---|---|
+| A — execução técnica | Quebra de linha, hierarquia, posição, correção tipográfica inequívoca, tempo de entrada/saída e corte de margem defeituosa sem perder ação essencial | Executar no escopo de produção autorizado e registrar. Não converter isso em alteração do original ou em aprovação final. |
+| B — adaptação editorial equivalente | Encurtar/parafrasear lettering não fixado literalmente; realocar texto para o benefício correspondente; substituir ilustração genérica por outra ação da mesma mensagem; dividir um bloco em planos para legibilidade | Pode executar quando abrangido pela delegação e sem escolha expressamente bloqueada. Manter fatos, escopo, ressalvas e propósito; mostrar antes/depois e justificar em uma linha no registro. Se só foi solicitada análise, entregar a proposta, sem alterar a montagem. |
+| C — mudança material ou dúvida | Nova promessa/benefício; omitir condição; alterar preço, número, horário, endereço, público elegível, CTA/objetivo, tom ou história escolhidos; substituir cena/lettering explicitamente aprovados; mudar locução ou duração contratada; nova despesa | Propor alternativa com impacto e pedir a decisão do responsável. Avançar nas partes independentes. Não escolher entre fontes conflitantes por intuição. |
+
+**Teste de equivalência:** a revisão preserva quem recebe o quê, em quais condições, por qual meio e com qual ação esperada? Preserva negações, possibilidade versus certeza, "até", "ou" versus "e", disponibilidade, quantidades e qualificadores? Se houver mudança de resposta ou dúvida razoável, tratar como C. Um asterisco não recupera uma condição omitida se sua explicação não estiver associada e legível. Texto de tela e imagem também podem aumentar uma promessa, mesmo sem mudar a voz.
+
+Registrar por bloco: ID/versão e escopo aprovado → original → problema → proposta → significado preservado → nível A/B/C e autorização aplicável → impacto em voz/tempo/assets → estado proposto/aplicado/verificado/aprovado e próximo ato. Não criar outra fonte de verdade: no estado do cliente ficam decisões e ponteiros para o registro detalhado. Preservar roteiro, mídia e edição anteriores. Nova síntese/geração só depois dos respectivos requisitos de aprovação.
+
 ### 4.2 Escolha e criação da voz
 
 Examinar vozes existentes e ouvir amostras adequadas ao tom, público e ritmo. Oferecer uma seleção curta e pedir a escolha. Distinguir selecionar voz existente, criar/salvar nova voz e sintetizar áudio: são operações diferentes.
@@ -230,6 +260,25 @@ Kairo aprova versão/quadros antes do planejamento detalhado e do lote. Aprovaç
 - Na continuidade literal, manter eixo, direção de olhar/deslocamento, luz e estado dos objetos. A regra dos 180 graus orienta conexões espaciais. Mudança intencional requer transição compreensível. Planejar raccord de ação: fase do gesto, mão, objeto e corpo precisam permitir o próximo plano; alternar escala/ângulo quando trouxer informação, evitando salto acidental.
 - Na continuidade conceitual, personagens podem mudar: roteiro, gesto, cor, forma ou causa e efeito devem ligar os planos. Não sugerir ser a mesma pessoa/família com identidade inconsistente.
 - Preferir poucas ações legíveis e execução convincente a muitas ações comprimidas. Prever margens de edição e duração útil real. Julgar movimento no vídeo, não somente na imagem inicial.
+
+### 5.1.1 Critérios técnicos de seleção para qualquer nicho
+
+Aplicar também a produto, tecnologia, indústria, serviços e peças conceituais. Para cada cena candidata, registrar somente os critérios pertinentes:
+
+| Critério | Verificação para escolher o plano |
+|---|---|
+| Função e informação | Apresenta, demonstra, explica, compara, contextualiza, orienta ou cumpre função estética/conceitual deliberada? O que acrescenta que o plano anterior não mostrou? |
+| Evidência visual | Qual característica, uso, relação ou resultado é observável? Não confundir alguém sorrindo/trabalhando com demonstração de competência, desempenho ou resultado garantido. |
+| Escala e foco | O detalhe decisivo tem tamanho/nitidez suficientes? Mãos, ferramentas, produto e tela precisam estar visíveis quando carregam a informação. |
+| Luz e perspectiva | Luz/reflexo revelam forma/material sem ocultar informação? Perspectiva/proporção e profundidade de campo servem à leitura e não deformam o objeto? |
+| Correção da ação | Ferramenta, conexão, interface, ordem e mudança de estado são plausíveis e correspondem à referência real? Movimento agradável não compensa operação errada. |
+| Cobertura e montagem | Há contexto/ação/detalhe/resultado necessários e uma conexão editável? Não exigir três ângulos por rotina; obter só a cobertura que resolve a sequência. |
+| Continuidade | Gesto, posição, olhar, direção de movimento, luz e estado permitem o próximo plano quando compartilham espaço/ação? Em montagem conceitual, qual ideia ou forma liga os planos? |
+| Aproveitamento temporal | O trecho útil comporta informação e reação, entradas/saídas do motion e margem de corte? Rever a fonte inteira a 3 quadros/s ou mais conforme 8.3. |
+| Quadro de entrega | A zona livre permanece durante o movimento, incluindo lettering/legenda/CTA e formatos alternativos? Não avaliar só o frame inicial. |
+| Fidelidade e método de obtenção | Captura real/construção controlada para interface, produto ou funcionamento exatos; banco/geração para ilustração adequada; motion/diagrama para abstração. Metáfora exige função definida, sem fingir prova factual. |
+
+Classificar os arquivos pelo conteúdo: um `scene_01.png` pode conter apenas instruções de texto, não uma cena; um layout achatado com ícones/setas pode servir de referência e precisar de elementos separados para produção editável. Não gerar vídeo a partir de prancha/placeholder por causa do nome. Imagem aceita como candidata não aprova o vídeo derivado, que exige revisão temporal.
 
 ### 5.2 Composição do motion
 
@@ -567,6 +616,7 @@ Lettering ID / texto exato / palavra-gatilho / in-out / camada / ordem e simulta
 Entrada / sustentação / saída / hierarquia / fonte / cor / áreas protegidas:
 Asset / original / crop offsets / âncora:
 Dynamic Link / render e leitura no host / aprovação e pendências:
+Fonte do lettering / qualificador preservado / original -> proposta / nível A-B-C e autorização / revisão editorial:
 ```
 
 ### 14.4 Receitas de prompt
@@ -586,6 +636,7 @@ Referências documentais da pesquisa anterior, reunidas aqui para evitar outra p
 - [Claude Code: hooks](https://code.claude.com/docs/en/hooks), [instruções/imports](https://code.claude.com/docs/en/memory), [MCP por projeto](https://code.claude.com/docs/en/mcp).
 - [Adobe: Single Word captions](https://helpx.adobe.com/premiere/desktop/add-text-images/insert-captions/create-single-word-captions.html), [pacotes de idioma](https://helpx.adobe.com/premiere/desktop/add-text-images/insert-captions/download-language-packs-from-within-premiere.html), [Speech to Text](https://www.adobe.com/br/products/premiere/speech-to-text.html).
 - [Adobe: lower thirds](https://www.adobe.com/creativecloud/video/discover/lower-third-graphics.html) e [regra de 180 graus](https://www.adobe.com/creativecloud/video/discover/what-is-the-180-degree-rule.html).
+- Revisão editorial: [Adobe, roteiro](https://www.adobe.com/creativecloud/video/discover/video-script.html), [storyboard](https://www.adobe.com/creativecloud/video/discover/storyboarding.html); [Google, ABCDs por objetivo](https://support.google.com/google-ads/answer/14783551?hl=en), [guia de produção](https://business.google.com/uk/think/future-of-marketing/production-guide-youtube-ad-tips/). Consultados em 19/10/2026. Matriz de autonomia e teste de equivalência são regras operacionais deste método, não concessões ou recomendações atribuídas a essas fontes.
 - [ElevenLabs: Voice Changer](https://elevenlabs.io/docs/api-reference/speech-to-speech/convert); [Google Flow: criação de vídeos](https://support.google.com/flow/answer/16353334?hl=en).
 - [PySceneDetect](https://github.com/Breakthrough/PySceneDetect), [OpenTimelineIO](https://github.com/AcademySoftwareFoundation/OpenTimelineIO), [ComfyUI/Wan2.2](https://docs.comfy.org/tutorials/video/wan/wan2_2).
 - [Flow MCP não oficial](https://github.com/ParkSangGwon/google-flow-mcp), [KlingCreator](https://github.com/yihong0618/klingCreator), [KIE AI MCP](https://github.com/neokahu/kie-ai-mcp), [KIE CLI MCP](https://github.com/felores/kie-cli-mcp), [Playwright MCP](https://github.com/microsoft/playwright-mcp).
