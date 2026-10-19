@@ -234,8 +234,9 @@ def grid(source, out, count, ffmpeg, ffprobe):
     info=json.loads(subprocess.check_output([ffprobe,'-v','error','-show_entries','format=duration','-of','json',str(source)],text=True))
     duration=float(info['format']['duration'])
     if not math.isfinite(duration) or duration<=0:raise ValueError('Invalid duration')
-    count=count or 12*max(1,math.ceil(duration/60))
-    if count<1 or count>240:raise ValueError('Use 1..240 frames or divide video into sections')
+    minimum=math.ceil(duration*3)
+    count=minimum if count is None else count
+    if count<minimum:raise ValueError(f'Review requires at least {minimum} frames (3 per second over the full source)')
     if out.exists():raise ValueError('Output already exists; use a new version')
     out.mkdir(parents=True)
     cells=[]
@@ -251,7 +252,7 @@ def grid(source, out, count, ffmpeg, ffprobe):
             with Image.open(out/c['path']) as im:sheet.paste(im,(x,y+28))
             draw.text((x+8,y+7),f"#{c['index']:03d} | {c['requested_seconds']:.3f}s",fill='white')
         sheet.save(out/f'grid_{start//12+1:02d}.jpg',quality=90)
-    atomic(out/'index.json',{'source':str(source.resolve()),'source_sha256':hashfile(source),'duration':duration,'sampling':'uniform midpoints; requested timestamps, not exact decoded PTS; cannot prove motion/audio quality','frames':cells})
+    atomic(out/'index.json',{'source':str(source.resolve()),'source_sha256':hashfile(source),'duration':duration,'minimum_samples_per_second':3,'requested_samples_per_second':count/duration,'sampling':'uniform midpoints over full source; requested timestamps, not exact decoded PTS; inspect every page; cannot prove unique frames, motion/audio quality or approval','frames':cells})
     return {'frames':count,'pages':math.ceil(count/12),'output':str(out)}
 
 def main():
@@ -266,7 +267,7 @@ def main():
     a=sub.add_parser('end');a.add_argument('--operation',required=True);a.add_argument('--result',required=True,choices=['verified','failed','unknown']);a.add_argument('--evidence',required=True)
     a=sub.add_parser('note');a.add_argument('--stage',required=True);a.add_argument('--summary',required=True);a.add_argument('--next',required=True);a.add_argument('--evidence',default='')
     a=sub.add_parser('checkpoint');a.add_argument('--stage',required=True);a.add_argument('--summary',required=True);a.add_argument('--next',required=True)
-    a=sub.add_parser('grid');a.add_argument('source',type=Path);a.add_argument('--out',type=Path,required=True);a.add_argument('--frames',type=int);a.add_argument('--ffmpeg',default='ffmpeg');a.add_argument('--ffprobe',default='ffprobe')
+    a=sub.add_parser('grid');a.add_argument('source',type=Path);a.add_argument('--out',type=Path,required=True);a.add_argument('--frames',type=int,help='Capture count; default and minimum ceil(duration * 3)');a.add_argument('--ffmpeg',default='ffmpeg');a.add_argument('--ffprobe',default='ffprobe')
     args=p.parse_args();root=args.project.resolve();folder=root/'.continuidade'
     if args.cmd=='init':init(root,args.watch)
     elif args.cmd=='install-claude-hooks':hooks(root)

@@ -292,7 +292,7 @@ Começar por um take piloto representativo. Conferir ação, progressão, câmer
 2. Assim que recebido, salvar ID remoto, provedor, estado, parâmetros e saída esperada antes de monitorar.
 3. Consultar status com intervalos razoáveis por executor local quando disponível; não manter LLM raciocinando em cada polling.
 4. Timeout é estado desconhecido. Consultar histórico/job antes de repetir. O kit registra pendência, mas não fornece idempotência externa do provedor.
-5. Baixar, identificar, medir e revisar. Guardar aceito/rejeitado e motivo; não misturar tentativa reprovada com take final.
+5. Baixar, identificar, medir e revisar o take inteiro conforme 8.3, com pelo menos 3 quadros por segundo. Registrar aceito, aproveitável com recorte, rejeitado ou pendente, com intervalos e motivo; não misturar fonte, tentativa e trecho aceito.
 6. Colocar o vídeo aceito no intervalo previsto, substituindo a imagem provisória e preservando a relação entre roteiro, take e comp. Ajustes que afetem fala/design exigem nova revisão do trecho.
 
 ### 8.2 Provedores e conexões
@@ -302,6 +302,19 @@ O briefing escolhe Flow, Kling ou outra solução. MCP não melhora por si a qua
 Kling por API oficial/MCP, browser ou implementações de sessão são caminhos diferentes, com disponibilidade e fragilidade diferentes. Não presumir que autenticação de leitura prova geração. Implementações não oficiais exigem inspeção e piloto; não há promessa de uso gratuito ou substituição de créditos.
 
 Higgsfield para controle local Adobe é diferente da nuvem de geração Higgsfield. Uma ponte AE não comprova controle de Premiere. Se futuramente houver interesse na nuvem paga: verificar conta/plano/modelo/custo, aprovar um piloto, persistir job, monitorar, baixar e comparar resultado. Não contratar ou gerar por existir este procedimento.
+
+### 8.3 Revisão temporal do take e aproveitamento por recorte
+
+**Critério definido por Kairo:** analisar cada vídeo recebido/gerado em toda a sua duração, com **pelo menos 3 quadros por segundo**, e aumentar a densidade onde houver ação rápida, comportamento suspeito ou defeito. Não examinar apenas o frame inicial, o ápice ou o trecho que se pretendia usar. Não é necessário extrair todos ou quase todos os frames. O piso é 3/s; quantidade de thumbnails ou vídeo baixado não significam análise concluída.
+
+1. Gerar capturas determinísticas e indexadas ao longo da fonte inteira: um take de8 s exige ao menos 24 capturas;10 s,30. Complementar início/fim, mudanças de plano, gesto/contato, objetos, reações e fronteiras de defeitos conforme necessário. Fonte com menos de 3 frames distintos/s exige examinar os disponíveis e informar o limite; imagens repetidas não são novas provas.
+2. **Examinar todas as páginas**, seguindo a ordem temporal e a relação com o roteiro, o plano anterior e o próximo. Conferir comportamento do personagem, anatomia/mãos, olhar, ação e reação, objetos/textos, identidade, câmera, enquadramento e área de motion durante o take. Não deduzir ação pelo nome do arquivo. Para fluidez, fala/lip sync ou suspeita entre amostras, abrir o trecho em movimento e ampliar a amostragem; o piso não garante capturar todo defeito.
+3. Mapear falhas e intervalos úteis na **fonte**, com segundos/timecode, fps e frames `[in,out)` quando medidos. Classificar cada trecho; preservar o arquivo original. Um começo/fim defeituoso pode ser descartado sem rejeitar um miolo bom. Falha no meio pode deixar mais de um trecho útil, mas unir esses trechos exige verificar continuidade. Não aceitar toda a fonte por causa de um bom frame nem regenerar tudo por causa de um defeito localizado.
+4. Conferir se o trecho útil contém contexto, ação e reação suficientes, cabe na duração da locução e preserva espaço para entradas/saídas do motion. Registrar o corte proposto e o mapa fonte→timeline; não completar tempo com repetição ou retiming arbitrário. Rever começo/fim **do recorte** para não cortar gesto, reação ou fala de forma inadequada.
+5. Se faltar duração ou ação, planejar o próximo vídeo/corte a partir do estado do trecho aproveitado: personagens presentes, posição, olhar, gesto, objeto, direção de câmera e ligação narrativa. Escolher continuação da ação, novo enquadramento, detalhe ou reação que complete o roteiro. Não encadear automaticamente um último frame ruim. Novo prompt, referências e parâmetros/custo continuam sujeitos à aprovação aplicável antes do envio.
+6. Registrar imediatamente resultado e cobertura: fonte/hash/job, páginas/tempos efetivamente vistos, falhas localizadas, intervalos aproveitáveis, in/out escolhido ou proposta pendente, duração útil, posição pretendida na montagem e próximo ato. Separar proposta de recorte, recorte aplicado e trecho revisto na timeline. Uma IA seguinte retoma pelos intervalos e evidências, sem ter que redescobrir a fonte inteira. Extração automatizada não é decisão editorial nem aprovação humana.
+
+Antes de aprovar o take, avaliar também o desenvolvimento das relações e do estado emocional, e o que cada plano acrescenta à sequência. Em narrativas, gestos, objetos e ausências podem carregar informação implícita; registrar essa interpretação como hipótese quando não estiver confirmada pelo roteiro/autor. Consistência de rosto/roupa, isoladamente, não comprova continuidade narrativa.
 
 ## 9. Premiere, After Effects e motion
 
@@ -335,15 +348,15 @@ A operação automática de transcrição ainda depende de ferramenta exposta ou
 
 ### 10.2 Revisão econômica com grids
 
-O kit produz contato a partir de um **render salvo**, sem geração por IA:
+O kit produz contato de um **vídeo salvo**, tanto fonte gerada/recebida quanto render de revisão, sem geração por IA. Aplica-se o piso de 3 capturas/s da seção 8.3:
 
 ```text
-python kit/av.py grid revisao.mp4 --out revisao_grid_v01 --frames 24
+python kit/av.py grid take.mp4 --out take_grid_v01
 ```
 
-Saída: duas pranchas de 12 capturas, frames individuais e `index.json` com origem/hash e tempos solicitados. Por padrão: 12 capturas por minuto iniciado, mínimo 12; limite 240 por execução. Pode-se escolher quantidade explicitamente. Amostragem uniforme não é seleção inteligente de cortes. Células 16:9 usam margens para outros formatos. O comando recusa sobrescrever diretório existente.
+Saída: pranchas de até 12 capturas, frames individuais e `index.json` com origem/hash, duração, densidade solicitada e tempos de busca. O padrão é `ceil(duração × 3)`:8 s→24 capturas/2 páginas;10 s→30 capturas/3 páginas;50 s→150 capturas/13 páginas. `--frames N` pode aumentar a quantidade, mas recusa densidade inferior a3/s. O limite antigo de 240 capturas foi removido para não reduzir a cobertura de vídeos longos; as páginas continuam limitadas a 12 células. Amostragem uniforme não detecta cortes/defeitos automaticamente. Células 16:9 usam margens para outros formatos; o comando recusa sobrescrever diretório existente.
 
-Examinar a prancha, localizar problema por número/timecode e abrir só os trechos necessários. Complementar cortes rápidos e ápices de motion com frames adicionais. O índice guarda tempo solicitado de busca, não PTS exato. Grid não comprova movimento, lip sync, fluidez, áudio ou texto minúsculo e ainda custa processamento visual quando enviado a uma IA.
+Examinar **todas as páginas** antes de concluir a revisão, localizar problemas por número/timecode e aplicar o procedimento de aproveitamento da seção 8.3. Complementar cortes rápidos, início/fim e ápices de motion com frames adicionais; abrir capturas em maior resolução quando a célula não permitir avaliar rosto, mãos ou texto. O índice guarda tempo solicitado de busca, não PTS exato nem garantia de frames distintos. Grid não comprova movimento, lip sync, fluidez, áudio ou aprovação e ainda custa processamento visual quando enviado a uma IA. Economizar com extração/paginação local, índice reutilizável e análise por lote; não reduzir a cobertura mínima para economizar tokens.
 
 ### 10.3 Polimento e controle de qualidade
 
@@ -487,7 +500,7 @@ Direção e montagem: [Adobe — continuidade](https://www.adobe.com/creativeclo
 | Item | Situação real |
 |---|---|
 | Método e fichas deste documento | Descoberta de referências dispersas, direção/continuidade, linguagem do motion, grid e perguntas explícitos; preenchimento depende da demanda |
-| Kit continuidade | Inventário/delta, begin/end, notas editoriais, retornos recentes, pendências, gravação atômica, lock e observador;12testes locais passaram nesta revisão |
+| Kit continuidade | Inventário/delta, begin/end, notas editoriais, retornos recentes, pendências, gravação atômica, lock e observador; grids com piso de3capturas/s e paginação;15testes locais passaram, incluindo cobertura temporal |
 | Hooks Claude | Instalador e simulação testados; funcionamento em uma conversa real deve ser provado na instalação |
 | Grid | Código local testado com vídeo; pranchas e índice de tempos solicitados; sem detecção inteligente de cortes |
 | Adobe e assets de um piloto | Houve construção nativa e provas específicas; não é biblioteca genérica portátil pronta |
@@ -539,7 +552,10 @@ Câmera / eixo / enquadramento / luz / identidade e objetos:
 Áreas protegidas e reservadas durante a ação:
 In/out global [frames] / duração útil / margens / frame inicial e final se necessário:
 Modelo / provedor / duração / resolução / áudio / quantidade / teto aprovado:
-Prompt e referências aprovadas / job / resultado / aceito-rejeitado e motivo:
+Prompt e referências aprovadas / job / resultado / aceito, aproveitável com recorte, rejeitado ou pendente / motivo:
+Revisão da fonte inteira: duração / densidade (mínimo 3/s) / páginas e trechos vistos / evidência:
+Falhas na fonte / intervalos aproveitáveis / recorte proposto ou aplicado [in,out) / duração útil:
+Mapa fonte -> timeline / ação-estado preservados na entrada e saída / continuação ou próximo take:
 ```
 
 ### 14.3 Comp e lettering

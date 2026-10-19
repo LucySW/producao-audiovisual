@@ -8,7 +8,7 @@ Método geral para vídeos comerciais com cenas, voz e motion graphics editável
 
 - `PLANEJAMENTO_AUTOMACAO.md`: planejamento detalhado e modelos de preenchimento.
 - `kit/av.py`: continuidade local, notas editoriais persistentes (`note`), retornos recentes, operações pendentes, hooks Claude Code e grids de revisão.
-- `kit/test_av.py`: testes do registro de continuidade.
+- `kit/test_av.py`: testes de continuidade e cobertura temporal dos grids.
 - `kit/requirements.txt`: dependência do comando de grid; FFmpeg/FFprobe também precisam estar disponíveis.
 - `AGENTS.md` e `CLAUDE.md`: entradas curtas para agentes; não duplicam o planejamento.
 

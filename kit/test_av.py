@@ -81,4 +81,38 @@ class ContinuityTests(unittest.TestCase):
         self.assertNotIn('PROPOSTA: quadro em revisao',(self.folder/'RETOMAR.md').read_text(encoding='utf-8'))
         self.assertTrue(any(av.read(p).get('kind')=='note' for p in (self.folder/'events').glob('*.json')))
 
+class GridCoverageTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
+        self.source=self.root/'source.mp4';self.source.write_bytes(b'grid test fixture')
+    def tearDown(self):self.tmp.cleanup()
+    def render_fake_frame(self, command, **kwargs):
+        from PIL import Image
+        Image.new('RGB',(384,216),'navy').save(command[-1])
+    def test_fractional_duration_covers_entire_source_at_three_per_second(self):
+        out=self.root/'grid'
+        with patch.object(av.subprocess,'check_output',return_value='{"format":{"duration":"8.1"}}'),patch.object(av.subprocess,'run',side_effect=self.render_fake_frame):
+            result=av.grid(self.source,out,None,'ffmpeg','ffprobe')
+        index=av.read(out/'index.json');times=[f['requested_seconds'] for f in index['frames']]
+        self.assertEqual(result['frames'],25);self.assertEqual(result['pages'],3)
+        self.assertGreaterEqual(len(times)/8.1,3)
+        self.assertLessEqual(max(b-a for a,b in zip(times,times[1:])),1/3+1e-6)
+        self.assertLessEqual(times[0],1/6+1e-6);self.assertLessEqual(8.1-times[-1],1/6+1e-6)
+        self.assertEqual(len(list(out.glob('frame_*.jpg'))),25)
+        self.assertEqual(len(list(out.glob('grid_*.jpg'))),3)
+    def test_explicit_sparse_sample_is_rejected_before_creating_output(self):
+        out=self.root/'grid'
+        with patch.object(av.subprocess,'check_output',return_value='{"format":{"duration":"10"}}'):
+            with self.assertRaisesRegex(ValueError,'at least 30 frames'):
+                av.grid(self.source,out,24,'ffmpeg','ffprobe')
+        self.assertFalse(out.exists())
+    def test_long_video_keeps_density_beyond_old_240_capture_limit(self):
+        out=self.root/'grid'
+        with patch.object(av.subprocess,'check_output',return_value='{"format":{"duration":"81"}}'),patch.object(av.subprocess,'run',side_effect=self.render_fake_frame):
+            result=av.grid(self.source,out,None,'ffmpeg','ffprobe')
+        self.assertEqual(result['frames'],243);self.assertEqual(result['pages'],21)
+        index=av.read(out/'index.json')
+        self.assertEqual(index['requested_samples_per_second'],3)
+        self.assertEqual(index['frames'][-1]['page'],21)
+
 if __name__=='__main__':unittest.main()
