@@ -1,6 +1,6 @@
 # Planejamento da produção audiovisual e de sua automação
 
-Versão consolidada: 18/10/2026. Este documento é a fonte única do **método geral** para vídeos comerciais com cenas, locução ou diálogo e motion graphics editável. Serve a qualquer segmento. A empresa, o roteiro, o estilo, a voz, os provedores, a duração e o orçamento são decisões de cada demanda. Exemplos não se tornam requisitos.
+Versão consolidada: 19/10/2026. Este documento é a fonte única do **método geral** para vídeos comerciais com cenas, locução ou diálogo e motion graphics editável. Serve a qualquer segmento. A empresa, o roteiro, o estilo, a voz, os provedores, a duração e o orçamento são decisões de cada demanda. Exemplos não se tornam requisitos.
 
 O método descreve o resultado e a ordem de dependências. A seção 13 distingue o que é código disponível, etapa manual e automação futura. Documentar uma função não significa tê-la implementado. O kit anexo contém somente ferramentas locais já existentes de continuidade e revisão.
 
@@ -8,9 +8,9 @@ O método descreve o resultado e a ordem de dependências. A seção 13 distingu
 
 1. Escopo e fonte de verdade
 2. Entrada, arquivos e briefing
-3. Pesquisa visual e marca
+3. Descoberta de referências, realidade do cliente e marca
 4. Roteiro, voz e montagem temporal
-5. Direção e aprovação visual preliminar
+5. Direção, continuidade, identidade do motion e storyboard em grid
 6. Técnico de design: takes, composições e letterings
 7. Frames e assets consistentes
 8. Geração ou obtenção dos vídeos
@@ -84,7 +84,46 @@ CLAUDE.md               importa @AGENTS.md quando usado pelo Claude Code
 
 Criar pastas só quando houver uso. Manter cache/proxies pesados fora da sincronização quando possível; configurar e testar no aplicativo antes de afirmar que isso foi aplicado. Garantir arquivos locais disponíveis no OneDrive. Não replicar histórico documental, versões da skill ou método genérico em cada subpasta. Logs não devem virar instruções vigentes.
 
+### 2.4 Como a IA conduz o usuário
+
+Primeiro inspecionar os materiais e decisões existentes; perguntar só o que muda o resultado e ainda não está definido. Distinguir `fornecido`, `comprovado`, `aprovado`, `proposto` e `pendente`. Não pedir que o usuário encontre um arquivo que a IA pode localizar na raiz autorizada.
+
+| Situação | Pergunta/ação concreta | Condição para avançar |
+|---|---|---|
+| Briefing incompleto | Perguntar somente objetivo, destino, duração ou mensagem ausentes | Lacunas e limites identificados |
+| Referências insuficientes | “Há imagens reais do local/uniforme/produto ou podemos pesquisar as fontes oficiais indicadas?” | Fonte e grau de certeza registrados |
+| Relação entre cenas indefinida | “Acompanhamos a mesma pessoa em sequência ou situações diferentes ligadas pelo benefício?” | Tipo de continuidade escolhido |
+| Motion sem direção | Apresentar poucas linguagens coerentes com a marca e pedir qual desenvolver | Direção gráfica escolhida, sem redesenhar a marca |
+| Voz/tempo indefinidos | Apresentar amostras e diferença de duração medida | Voz/base temporal aceitas |
+| Grid pronto | Mostrar versão e quadros: “Aprova a linguagem e a disposição ou ajustamos estes pontos?” | Aprovação integral/parcial explicitada |
+| Geração pronta | Mostrar frame, ação, câmera, modelo, duração, qualidade, áudio, quantidade e custo/teto | Autorização específica recuperável |
+| Falta ferramenta | Informar o que está preparado e qual ação depende de humano | Próximo ato executável, sem alegar execução inexistente |
+
+Preferir uma a três decisões por rodada, com opções fáceis de comparar. Não repetir escolha já aprovada nem pedir confirmação de detalhe rotineiro. Avançar no trabalho independente enquanto aguarda decisão; silêncio não aprova gasto ou arte. Registrar respostas com `note` imediatamente, incluindo alvo/versão, e atualizar o estado vigente por unidade concluída.
+
 ## 3. Pesquisa visual e marca
+
+### 3.0 Descoberta sem presumir a pasta
+
+1. Ler roteiro, briefing, estado e inventário existente. Procurar referências na raiz autorizada: `IMAGENS`, `imagens`, `REFERENCIAS`, `referência`, `assets`, `marca`, anexos e pastas equivalentes. Uma imagem em IMAGENS pode ser referência; uma imagem em REFERENCIAS pode ser IA. O conteúdo decide sua função.
+2. Buscar nomes/extensões e metadados antes de abrir arquivos grandes. Separar marca oficial, foto real, frame de vídeo, referência estética, alpha, storyboard proposto e mídia gerada. Reusar hashes/índices; não criar cópias de tudo.
+3. Examinar os materiais pertinentes e extrair frames com origem/timecode. Downloads e outras raízes entram quando indicadas/autorizadas para a demanda; não vasculhar o computador inteiro por rotina.
+4. Se não houver referências suficientes, perguntar sobre fontes reais e confirmar qual empresa/unidade; pesquisar site/redes/banco autorizados quando fizer parte da tarefa. Não confundir homônimos nem completar lacuna com falsa aparência real.
+5. Para cada necessidade do roteiro, marcar `encontrada`, `insuficiente`, `não se aplica` ou `pendente`. Guardar um inventário curto no estado/técnico do cliente; índice separado somente quando o volume justificar.
+
+Cobertura dos elementos reais, conforme a demanda:
+
+| Elemento | O que observar | Quando falta evidência |
+|---|---|---|
+| Fachada/entrada | Unidade/endereço, volume, letreiro, cores, acessos e perspectiva | Pedir original ou não apresentar imagem gerada como fachada real |
+| Interior/estrutura | Consultório, recepção, bancada, equipamentos e relações espaciais relevantes | Usar solução genérica aprovada ou manter pendência; não inventar capacidade do negócio |
+| Uniforme | Cor, corte, peças, logo, crachá/acessórios e contexto | Perguntar; post gerado não comprova padrão real |
+| Logo/identidade | Arquivos/versões oficiais, proporção, proteção, cores/fontes disponíveis | Solicitar arte oficial; não inventar marca com texto gerado |
+| Produto/cartão/tela | Modelo, detalhes reconhecíveis e informação válida | Solicitar fonte ou alternativa editorial aprovada |
+| Pessoa recorrente | Referência aprovada, identidade fictícia/autorizada e papel na história | Definir antes do take que dependa da repetição |
+
+Uma fonte pode comprovar somente parte do quadro: vídeo real pode ter overlay gerado, e foto pode ter edição. Registrar o elemento observado e o grau de certeza. Unidades, datas e uniformes diferentes não são automaticamente intercambiáveis. Não exigir todos os itens em qualquer projeto; selecionar o que serve ao roteiro.
+
 
 ### 3.1 Filtrar antes de usar como realidade
 
@@ -136,13 +175,51 @@ Registrar frase exata em português ou outro idioma escolhido, interpretação, 
 
 Na conversão, preservar original e sample rate, comparar atraso de codificação e alinhamento no começo/meio/fim, ouvir e observar consoantes/fechamento de boca. Diferenças podem exigir edição localizada ou nova performance. Não foi criado no kit um conversor/lip sync automático.
 
-## 5. Direção e aprovação visual preliminar
+## 5. Direção, continuidade, identidade do motion e grid
 
-Após áudio e montagem-base, preparar poucos styleframes representativos, distribuídos em pontos importantes do roteiro. Uma prancha de aproximadamente seis quadros, cada qual 16:9, é uma opção; quantidade/proporção dependem das entregas. Mostrar motion estático no ápice, hierarquia e cena ao fundo, reservando espaço de legenda.
+Ordem explícita: **intenção do roteiro → relação entre cenas → linguagem do motion → amostras gráficas → grid de styleframes → aprovação → técnico detalhado e lote de assets/frames**. A locução/montagem-base fecha os tempos; antes disso o storyboard é provisório. Marca/estilo já aprovados podem preencher etapas sem nova geração.
 
-Kairo aprova linguagem/composição antes do planejamento detalhado e do lote de imagens. Os frames aprovados orientam o técnico de design e os assets necessários. Uma referência fornecida pelo usuário pode resolver a direção sem gerar outra proposta. Ignorar partes expressamente excluídas do exemplo.
+### 5.0.1 Lógica narrativa e cronologia
 
-**Styleframe** mostra cena e motion; **frame limpo** inicia um vídeo; **asset separado** permite reconstruir o design; **grid** é prancha de avaliação. Não enviar o grid inteiro como frame inicial e não incorporar textos/ícones do styleframe ao vídeo de fundo quando deverão ser editáveis.
+Para cada trecho: registrar o que é dito, o que precisa ser mostrado, qual informação a cena acrescenta e por que o próximo plano vem depois. Não usar apenas pessoas sorrindo relacionadas vagamente ao tema. Conteúdo visual não mencionado no roteiro é proposta de direção, não novo serviço, promessa ou fato do cliente.
+
+| Relação entre planos | Critério de direção |
+|---|---|
+| Continuidade literal/cronológica | A mesma ação progride: entrada antes do atendimento; objeto recebido continua na mão/estado certos; o plano anterior permite o seguinte |
+| Elipse | Pode omitir etapas, mas a passagem/resultado precisa ser compreensível |
+| Montagem conceitual | Pode trocar atores/locais; ligar por mensagem, gesto, função, forma, cor ou causa/efeito, sem fingir identidade comum |
+| Tutorial/demonstração | Respeitar pré-condições e ordem real; tela/equipamento não muda de estado sem ação correspondente |
+| Flashback/inversão | Recurso intencional, escolhido e compreensível; não acidente de geração |
+
+A ordem de gerar/filmar pode ser diferente da ordem de exibir. IDs e intervalos mantêm a ligação. Não reordenar o roteiro porque um take ficou pronto primeiro. Continuidades literal e conceitual podem coexistir em blocos distintos do mesmo filme.
+
+### 5.0.2 Consistência de personagem, local e objeto
+
+Criar registros leves para o que reaparece: `P01` personagem, `L01` local, `O01` objeto, com referência e versão. Separar traços fixos de variações permitidas. Personagem: rosto/faixa etária, cabelo, proporções, roupa/uniforme e acessórios pertinentes. Local: geometria, portas/móveis, cores, luz e unidade. Objeto: modelo, marca, cor, posição e estado de uso.
+
+Cada take aponta aos IDs presentes e ao estado antes/depois da ação. Exigir identidade comum somente quando a narrativa exigir. Ficha multiângulo ajuda quando o personagem muda de pose/ângulo; não é geração obrigatória para figurante que aparece uma vez. Não reproduzir rosto de funcionário só porque há uma foto no banco.
+
+Reusar as referências aprovadas e os elementos fixos; variar ação/câmera sem redescrever a identidade com atributos novos. Texto, seed e referência não garantem consistência: comparar resultados. Encadear o último frame de um vídeo como início do próximo é recurso para continuidade da mesma ação/câmera quando fizer sentido, não regra universal; pode prender os enquadramentos e propagar defeitos.
+
+### 5.0.3 O chatbot cria a linguagem gráfica complementar
+
+A IA define a identidade dos **elementos de motion** a partir da marca e das referências aprovadas: hierarquia de lettering/palavras, paleta funcional, traço/peso dos ícones, formas de cards, margens, curvas, sombras/texturas e relação com cena/legenda. Não inventar outra identidade corporativa nem redesenhar o logo para combinar.
+
+Registrar uma ficha curta no estado/técnico: fontes/pesos disponíveis, cores e função, título/apoio/destaque, ícones, formas, áreas livres e comportamento de entrada/sustentação/saída. Mostrar amostras de lettering/card/ícone suficientes para decidir. Referência clara pode bastar; sem direção, propor poucas alternativas e perguntar qual desenvolver.
+
+Não criar moodboard por rotina se o usuário já escolheu a referência. Distinguir amostra visual de construção final nativa. Assets alpha específicos serão gerados quando houver necessidade definida; fontes, texto principal, cards e linhas ficam editáveis quando apropriado. O design gerado orienta a execução no AE, não transforma todo o motion em uma imagem plana.
+
+### 5.0.4 Storyboard visual em grid
+
+Depois da linguagem do motion, gerar ou compor **uma prancha de aproximadamente seis momentos distribuídos pelo roteiro, com a cena atrás e o motion no ápice**. Este é o storyboard de inspiração/aprovação solicitado. É diferente do grid de screenshots de um render, usado para revisão técnica. Se a IA não gera imagem, usar integração/ChatGPT web autorizado ou preparar execução humana; um prompt descrito não é uma imagem criada.
+
+Cada quadro tem ID, trecho/timecode e proporção do destino —16:9 quando esse for o briefing. Especificar quantidade, linhas/colunas, ordem de leitura, células regulares e divisórias sem sobreposição. A proporção da prancha inteira deriva do arranjo, não precisa ser16:9. Não distorcer os quadros para caber num canvas incompatível.
+
+Conferir identidade, leitura, correspondência com a fala, variedade útil de planos, lógica espacial/cronológica e composição. Se o modelo errar a grade, verificar as divisórias reais ou recompor quadros; não presumir recorte exato nem cortar rosto/texto. Um recorte pequeno não vira automaticamente frame inicial final em alta resolução.
+
+Kairo aprova versão/quadros antes do planejamento detalhado e do lote. Aprovação parcial libera somente os trechos correspondentes. Depois preparar frames limpos e assets separados necessários, com tempos e técnico de design. Não gerar dezenas de elementos antes de saber quais serão usados.
+
+**Styleframe** = cena com motion; **frame limpo** = início de vídeo; **asset separado** = elemento da construção; **grid** = prancha de avaliação. Não enviar o grid inteiro como frame inicial nem incorporar seus grafismos ao vídeo de fundo quando deverão ser editáveis. Extração de um pedaço do grid não substitui asset de qualidade, alpha e uso adequados.
 
 ### 5.1 Direção dos takes
 
@@ -150,7 +227,7 @@ Kairo aprova linguagem/composição antes do planejamento detalhado e do lote de
 - Planejar ação observável com início, transformação e finalização: entregar objeto, orientar documento, abrir equipamento, deslocar-se. Piscar, cabelo mexendo e respirar não sustentam por si só um plano longo sem progressão.
 - Escolher câmera fixa ou movimento motivado pela informação: revelar ambiente, acompanhar gesto, aproximar detalhe. Não pedir movimentos contraditórios ou deslocamento de câmera apenas para agitar o quadro.
 - Reservar áreas para motion e legenda durante toda a ação. Rostos, mãos, produto/tela e objetos importantes não podem cruzar inadvertidamente o texto. Testar o enquadramento final e seus formatos alternativos.
-- Na continuidade literal, manter eixo, direção de olhar/deslocamento, luz e estado dos objetos. A regra dos 180 graus orienta conexões espaciais. Mudança intencional requer transição compreensível.
+- Na continuidade literal, manter eixo, direção de olhar/deslocamento, luz e estado dos objetos. A regra dos 180 graus orienta conexões espaciais. Mudança intencional requer transição compreensível. Planejar raccord de ação: fase do gesto, mão, objeto e corpo precisam permitir o próximo plano; alternar escala/ângulo quando trouxer informação, evitando salto acidental.
 - Na continuidade conceitual, personagens podem mudar: roteiro, gesto, cor, forma ou causa e efeito devem ligar os planos. Não sugerir ser a mesma pessoa/família com identidade inconsistente.
 - Preferir poucas ações legíveis e execução convincente a muitas ações comprimidas. Prever margens de edição e duração útil real. Julgar movimento no vídeo, não somente na imagem inicial.
 
@@ -182,6 +259,8 @@ Registrar sequência, fps racional, timecode inicial e intervalos globais em fra
 | Lettering | ID, texto exato, palavra-gatilho, in/out próprios, ordem, posição, coexistência, entrada/sustentação/saída |
 | Asset | Fonte e versão, nativo/raster/alpha, dimensões, recorte e âncora, lugar e escala esperados |
 | Aprovação | Versão, data, responsável, o que foi aceito e o que continua proposto |
+
+Cada take aponta também para P/L/O recorrentes, referências e quadro do grid aprovado; função narrativa, tipo de continuidade e estado inicial/final. Conferir cobertura: cada necessidade essencial do roteiro tem take ou solução editorial, e cada elemento real conserva a origem. Fonte ausente ou quadro não aprovado gera pendência, não autorização para inventar.
 
 No After, referências de design e contexto ficam posicionadas como guias e não saem no render. Motion sobre footage deve manter fundo transparente; trecho gráfico de tela cheia tem fundo deliberado. Os registros visuais dos inícios/fins de letterings precisam contemplar sobreposições, não apenas um marcador por cena.
 
@@ -282,6 +361,8 @@ Exportar conforme destino: codec, proporção, tamanho, fps, cor e áudio defini
 
 **Execução:** registrar intenção antes de operação relevante, preservar arquivo/projeto, usar ferramenta restrita, ler retorno e verificar efeito. Salvar decisões assim que tomadas e checkpoints por unidade concluída. Um lote parcial pode ter alterado o projeto apesar de erro; inspecionar antes de repetir.
 
+O registro acontece **por acontecimento**, não só ao encerrar: resposta humana, referência aceita/rejeitada, decisão de direção, conclusão/falha de bloco, envio/retorno de job e próximo ato. Registrar também propostas e pendências. Guardar decisão/alvo/versão/evidência; não raciocínio interno, prompts integrais, cookies ou chaves.
+
 **Saída:** atualizar estado editorial com resultado/evidência, propostas, pendências, custos conhecidos, próximo ato e último ato efetivamente executado. A etapa do filme inteiro e a tarefa desta sessão são campos distintos. Fim da sessão não significa filme pronto.
 
 ### 11.2 Kit local implementado
@@ -293,6 +374,7 @@ python CAMINHO_DO_KIT/av.py --project CAMINHO_DO_PROJETO init --watch 00_ADMIN/D
 python CAMINHO_DO_PROJETO/.continuidade/av.py --project CAMINHO_DO_PROJETO status
 python .continuidade/av.py begin --stage montagem --summary "Substituir take SC02 na cópia autorizada"
 python .continuidade/av.py end --operation ID_RETORNADO --result verified --evidence "Arquivo salvo; leitura de retorno e caminho da prova"
+python .continuidade/av.py note --stage direcao --summary "DECISAO HUMANA: quadro03 aprovado; demais em revisão" --next "Ajustar quadro04" --evidence "grid_v02, quadro03; resposta registrada"
 python .continuidade/av.py checkpoint --stage montagem --summary "SC02 conferida; SC03 pendente" --next "Revisar SC03"
 python .continuidade/av.py watch --interval 30
 python .continuidade/av.py install-claude-hooks
@@ -301,6 +383,8 @@ python .continuidade/av.py install-claude-hooks
 Usar aspas nos caminhos com espaços. Comandos sem `--project` usam a pasta atual. `init` recusa registro existente; não copiar `.continuidade` de outro cliente. Ajustar `--watch` à estrutura real: o padrão do script usa nomes genéricos e pode deixar de observar pastas numeradas. Não incluir dependências/cache/históricos gigantescos.
 
 `begin` retorna ID persistido; `end --result unknown` conserva a pendência. Persistir job externo antes de polling. Eventos são JSON individuais, gravados atomicamente; checkpoint e manifesto ficam juntos. Lock do sistema serializa scanners e é liberado no encerramento. Isso não impede duas IAs de escrever no mesmo Adobe.
+
+`note` grava imediatamente estágio, resumo, próximo ato e evidência sem zerar delta ou avançar checkpoint. RETOMAR mostra as últimas cinco notas e cinco retornos de operação desde checkpoint; eventos conservam o histórico. Se scanner estiver ocupado, a nota já fica salva e aparece na próxima varredura. Prefixar resumo conforme origem real: `DECISAO HUMANA`, `PROPOSTA`, `VERIFICADO` ou `PENDENTE`; o script não inventa aprovação.
 
 `status` compara com último checkpoint, não com última consulta; uma leitura repetida não apaga o delta. Hash de arquivo sem mudança de tamanho/data é reutilizado; `scan --full` força leitura quando necessário. Não produzir checkpoint que esconda mudanças editoriais desconhecidas: registrar versões/diferenças e pendência de revisão primeiro.
 
@@ -322,6 +406,8 @@ Codex usa os mesmos comandos explicitamente; não pressupor que seus hooks sejam
 ### 11.4 Passagem de agente
 
 O agente seguinte lê resumo → estado → delta/evidência pertinente. Concilia operações interrompidas, verifica host ativo e assume escrita somente após o anterior parar. Handoff curto aponta versão, decisão aprovada, alteração desde checkpoint, job e próximo ato. Não pede auditoria total quando os registros localizam a diferença.
+
+Quando acabar crédito, outro agente lê status, notas e retornos recentes do que já foi persistido; não depende de um último turno bem-sucedido. Mudança salva sem nota é detectável, mas sua intenção fica pendente. Antes de checkpoint, incorporar decisões no estado e identificar alterações ainda não revisadas. Notas, observador, snapshots Adobe e checkpoint são complementares.
 
 Atualizações do kit substituem só o executável depois de teste; preservar config, eventos e checkpoint. Git pode distribuir método/código no destino explicitamente autorizado. Não enviar mídia de cliente, `.continuidade`, sessões, cookies ou configurações privadas ao repositório genérico. Trabalho local sobrevive ao fim dos créditos; o modelo remoto ainda depende de conta/internet/créditos.
 
@@ -362,14 +448,46 @@ Medir separadamente: tokens/custo do assistente, créditos de todas as tentativa
 
 Não foi demonstrado um projeto aberto que entregue sozinho este processo inteiro com excelência artística humana. A prioridade é direção bem especificada, um piloto convincente, assets consistentes e automatização de tarefas repetidas.
 
+### 12.4 Pesquisa comparativa de pontes e processos — 19/10/2026
+
+Pesquisa de fontes primárias, schemas e trechos de código em oito repositórios, registro npm e documentação instalada, complementada por experiências no Reddit. Nenhum desses projetos foi instalado ou executado nesta pesquisa. Inspeção estática e demonstração do autor não são benchmark, compatibilidade local ou garantia de resultado humano.
+
+**Três produtos diferentes:** geração Higgsfield em nuvem, painel Adobe com geração e servidor local que opera o aplicativo. O [help center oficial](https://higgsfield.ai/creator-hub/help-center/integrations/external-integrations-higgsfield) descreve créditos das integrações generativas; o README do servidor local AE dispensa conta cloud. Não concluir que tudo exige assinatura nem que uma ponte local dá gerações grátis.
+
+| Ponte / fonte | O que foi confirmado e decisão |
+|---|---|
+| [Higgsfield AE / fnf-after-effects-mcp](https://www.npmjs.com/package/fnf-after-effects-mcp) | Instalação examinada0.1.3; npm atual0.1.6 documenta ajustes de bootstrap/mailbox no Windows. **Prioridade de teste futura:** versão pinada isolada, config/backup preservados, leitura e operação reversível. Pode ser pertinente ao timeout, sem provar sua causa. Mantém operações nativas e skills por referência, sem controlar Premiere. |
+| [Higgsfield Premiere / @higgsfield_org/premiere-mcp](https://www.npmjs.com/package/@higgsfield_org/premiere-mcp) |0.1.3 documenta importação/bins/sequências/clips/export e modo somente leitura; Windows experimental. Lista legendas, efeitos, keyframes, transições e bins aninhados como não suportados. **Não é substituto integral para nosso fluxo.** Candidato a teste delimitado, não migração por marca. |
+| [leancoderkavy/premiere-pro-mcp](https://github.com/leancoderkavy/premiere-pro-mcp) | Fonte1.24.1, piloto instalado1.24.0. Fluxos com leitura de retorno, contexto e recuperação; catálogo grande deve ser filtrado. Manter como opção e diagnosticar conexão antes de trocar. Importação de render AE não comprova Dynamic Link; suporte documentado não é função testada no host. |
+| [kumoproductions/mcp-aftereffects](https://github.com/kumoproductions/mcp-aftereffects) | Base MIT do runtime FNF; inspeção/operações, JSON e render de frame. Documenta eval desligado e tratamento de estado incerto; versões recentes tratam diálogos/instâncias. Candidato independente, preservando nossa proteção. Não autoriza aceitar confirmação na tela nem fechar projeto do usuário. |
+| [Dsrupt After Effects MCP](https://github.com/Dsrupt-Technologies/dsrupt-after-effects-mcp) | Runtime da mesma família, skills por demanda e diagnóstico, MIT. O próprio VALIDATION declara testes offline e ausência de AE naquela validação, deixando provas reais pendentes. Útil para estudar organização/descoberta; não foi provado superior no nosso Windows. |
+| [IMT After Effects MCP](https://github.com/Immersive-Media-Technologies/aftereffects-mcp-imt) | README/código incluem dry-run, checkpoint e trava de projeto. README/LICENSE determinam uso não comercial e licença escrita separada para trabalho comercial de clientes. **Não adotar como solução comercial gratuita.** Não copiar suas implementações/skills para nosso kit. |
+
+O README/UPSTREAM e as skills do FNF instalado foram lidos localmente, inclusive o módulo de fundação visual. Seu repositório citado por terceiros não abriu publicamente; disponibilidade no npm não concede direito de republicar o corpus. Não copiar suas skills nem impor os modelos/proporções de seus exemplos ao nosso briefing. Número de ferramentas ou alegação de marketing não decide qualidade.
+
+| Pipeline próximo | Contribuição útil / limite |
+|---|---|
+| [film-production-skills](https://github.com/zhangzhangco/film-production-skills) | Lidos assets, shots, schemas e handoff: IDs, fontes, cobertura do roteiro, câmera/blocking e continuidade. **Incorporado como princípio:** asset com origem, cena com função, saída pronta/bloqueada e referência rastreável. Não instalar sete agentes para preencher fichas simples. |
+| [StoryMind](https://github.com/LinHao-city/StoryMind) | Lidos planejador, character sheet e checkpoint: referências persistentes e retomada por etapa. Injetar descrição textual não garante identidade no vídeo. **Incorporado:** fixo/variável por personagem e estado em disco. Seu render FFmpeg/HTML não substitui AE editável; código AGPL exige avaliação antes de reutilização. |
+| [AI Film Director](https://github.com/BitraAI/ai-film-director) | Schemas de shot/personagem, continuidade e diretor inspecionados. O next_stage examinado usa presença de arquivos: isso não comprova aprovação/qualidade. **Incorporado:** contrato de saída e revisão por fase. Não copiar código sem licença clara ou herdar seus modelos. |
+| [AI Cinematic Pipeline](https://github.com/billpar/ai-cinematic-pipeline) | Ficha de shot e referências de personagem/local/objeto, elementos fixos/variáveis. **Incorporado com limites:** identidade persistente e estado da ação. Não adotar takes2–3s ou último-frame encadeado como regras universais; duração vem da locução/roteiro e seed não garante rosto consistente. |
+
+Revisões consultadas: film-production-skills@47b2a6a, StoryMind@00f9a0c, ai-film-director@eca6313, ai-cinematic-pipeline@ed7e286, mcp-aftereffects@73fea51, premiere-pro-mcp@be39a43, Dsrupt@9bfacc6, IMT@763e971. São pontos da pesquisa, não versões instaladas ou pinagem de produção.
+
+**Relatos de uso:** discussões sobre [Higgsfield e resultados reais](https://www.reddit.com/r/MotionDesign/comments/1rmijk6/to_those_wondering_about_the_ai_tool_higgsfield/), [grade versus identidade](https://www.reddit.com/r/aivideomaking/comments/1vps8pb/after_100_tests_these_are_the_things_that/) e [consistência de personagens](https://www.reddit.com/r/aifilmmaking/comments/1wslz0n/how_do_you_keep_characters_consistent_when_making/) mostram experiências divergentes, às vezes ligadas a promoção de produtos. Não importar percentuais, acusações ou custo nominal como fato técnico. Grade ajuda a planejar e pode falhar em layout; referência consistente ainda exige revisão. Medir custo por material aceito.
+
+**Próximo teste técnico recomendado, não executado:** estabilizar um bloco do piloto; avaliar FNF AE0.1.6 isoladamente e diagnosticar o Premiere atual; só comparar outra ponte se houver bloqueio/função faltante concreta. Aplicar a mesma prova: leitura, save/backup, texto nativo, frame, timeline/legenda e export. Registrar erros, chamadas/custo e compatibilidade Codex/Claude. Não instalar extensões concorrentes no projeto de produção para experimentar. Uma ponte ganha por evidência da operação necessária, não pela marca.
+
+Direção e montagem: [Adobe — continuidade](https://www.adobe.com/creativecloud/video/hub/ideas/what-is-continuity-editing-in-film.html), [eixo de180graus](https://www.adobe.com/creativecloud/video/discover/what-is-the-180-degree-rule.html), [storyboard](https://www.adobe.com/creativecloud/video/discover/storyboarding.html) e [match cut](https://www.adobe.com/creativecloud/video/post-production/cuts-in-film/match-cut.html). Aplicação: ação/olhar/estado devem ligar planos quando a narrativa pede continuidade literal; ligação conceitual pode trocar elenco; enquadramento protege pessoas/objetos e áreas de motion/legenda. São princípios de direção, não comandos que o MCP resolve sozinho.
+
 ## 13. Maturidade e ordem de implementação
 
 ### 13.1 O que está disponível
 
 | Item | Situação real |
 |---|---|
-| Método e fichas deste documento | Consolidados; preenchimento/decisões dependem da demanda |
-| Kit continuidade | Código local: inventário incremental, delta desde checkpoint, begin/end, pendências, gravação atômica, lock e observador |
+| Método e fichas deste documento | Descoberta de referências dispersas, direção/continuidade, linguagem do motion, grid e perguntas explícitos; preenchimento depende da demanda |
+| Kit continuidade | Inventário/delta, begin/end, notas editoriais, retornos recentes, pendências, gravação atômica, lock e observador;12testes locais passaram nesta revisão |
 | Hooks Claude | Instalador e simulação testados; funcionamento em uma conversa real deve ser provado na instalação |
 | Grid | Código local testado com vídeo; pranchas e índice de tempos solicitados; sem detecção inteligente de cortes |
 | Adobe e assets de um piloto | Houve construção nativa e provas específicas; não é biblioteca genérica portátil pronta |

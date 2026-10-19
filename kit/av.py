@@ -107,11 +107,19 @@ def summarize(root, folder, current, errors):
     checkpoint = read(folder/'checkpoint.json', {})
     baseline = checkpoint.get('files', {})
     changes = delta(baseline, current)
-    pending = {}
+    pending, operations, recent, notes = {}, {}, [], []
+    checkpoint_at = checkpoint.get('at', '')
     for p in sorted((folder/'events').glob('*.json')):
         e = read(p)
-        if e['kind']=='begin': pending[e['operation']] = e
-        elif e['kind']=='end' and e.get('result')!='unknown': pending.pop(e['operation'],None)
+        if e['kind']=='begin':
+            pending[e['operation']] = e
+            operations[e['operation']] = e
+        elif e['kind']=='end':
+            if e.get('result')!='unknown': pending.pop(e['operation'],None)
+            if e.get('at', '') > checkpoint_at:
+                recent.append((operations.get(e['operation'], {}), e))
+        elif e['kind']=='note' and e.get('at', '') > checkpoint_at:
+            notes.append(e)
     lines = ['# Retomada automática', '', 'Gerado: '+now(),
              'Checkpoint humano/agente: '+checkpoint.get('at','nenhum'),
              'Etapa: '+checkpoint.get('stage','não definida'),
@@ -122,13 +130,24 @@ def summarize(root, folder, current, errors):
         lines.append(f'- {k}: {len(values)}')
         lines.extend('  - '+v for v in values[:15])
         if len(values)>15:lines.append('  - Demais caminhos em delta.json')
+    lines += ['', '## Atualizações editoriais desde o checkpoint']
+    for e in notes[-5:]:
+        lines.append(f"- {e['at']} | {e['stage']}: {e['summary']}")
+        lines.append('  - Próximo ato: '+e['next'])
+        if e.get('evidence'):lines.append('  - Evidência/referência: '+e['evidence'])
+    if not notes:lines.append('- Nenhuma anotação editorial nova.')
+    lines += ['', '## Últimos retornos de operações desde o checkpoint']
+    for start, end in recent[-5:]:
+        lines.append(f"- {end['operation']} | {end.get('result','unknown')}: {start.get('summary',start.get('tool','operação'))}")
+        if end.get('evidence'):lines.append('  - Evidência/limite: '+end['evidence'])
+    if not recent:lines.append('- Nenhum retorno novo registrado.')
     lines += ['', f'## Operações sem fechamento: {len(pending)}']
     for e in list(pending.values())[-10:]:
         lines.append(f"- {e['operation']}: {e.get('summary',e.get('tool','operação'))}; verificar antes de repetir")
     lines += ['',f'Erros de leitura: {len(errors)}; ver delta.json.',
               'Somente arquivos salvos são observáveis. Ausência de mudança não prova ausência de ação externa.',
               'Arquivos removidos são relatados; esta ferramenta não apaga mídia.']
-    atomic(folder/'delta.json', {'at':now(),'changes':changes,'read_errors':errors,'pending':list(pending.values())})
+    atomic(folder/'delta.json', {'at':now(),'changes':changes,'read_errors':errors,'pending':list(pending.values()),'editorial_notes':notes[-5:]})
     atomic(folder/'RETOMAR.md','\n'.join(lines)+'\n')
     return changes
 
@@ -144,6 +163,18 @@ def scan(root, full=False):
         atomic(folder/'observed.json',current)
         changes=summarize(root,folder,current,errors)
     return current,errors,changes
+
+def note(root, stage, summary, next_action, evidence=''):
+    folder=root/'.continuidade'
+    if not (folder/'config.json').exists():raise ValueError('Run init first')
+    event(folder,'note',stage=stage,summary=summary,next=next_action,evidence=evidence)
+    try:
+        scan(root)
+        refreshed=True
+    except RuntimeError:
+        # The note is durable even while another scanner holds the lock.
+        refreshed=False
+    return {'recorded':True,'summary_refreshed':refreshed}
 
 def init(root, watches):
     folder=root/'.continuidade'
@@ -171,7 +202,7 @@ def hooks(root):
             items.append({'hooks':[{'type':'command','command':command,'timeout':30}]})
     if path.exists():shutil.copy2(path,folder/f'settings-backup-{time.time_ns()}.json')
     atomic(path,settings)
-    instructions='\n<!-- audiovisual-continuity -->\nAntes de agir, leia `.continuidade/RETOMAR.md` e o estado editorial vigente. Antes de operação externa/paga ou edição relevante, use `.continuidade/av.py begin`; após verificação use `end`. Faça `checkpoint` a cada unidade concluída, sem esperar o fim da sessão. Um evento de ferramenta concluída não é aprovação artística. Consulte o método em docs/producao-audiovisual/CONTINUIDADE.md quando disponível.\n'
+    instructions='\n<!-- audiovisual-continuity -->\nAntes de agir, leia `.continuidade/RETOMAR.md` e o estado editorial vigente. Antes de operação externa/paga ou edição relevante, use `.continuidade/av.py begin`; após verificação use `end`. Registre decisões, propostas, dúvidas e próximo ato com `note` assim que surgirem. Faça `checkpoint` por unidade reconciliada, sem esperar o fim da sessão. Um evento de ferramenta concluída não é aprovação artística. Consulte a seção11 do PLANEJAMENTO_AUTOMACAO.md do método geral.\n'
     agents=root/'AGENTS.md'
     text=agents.read_text(encoding='utf-8') if agents.exists() else '# Instruções do projeto\n'
     if 'audiovisual-continuity' not in text:
@@ -233,6 +264,7 @@ def main():
     a=sub.add_parser('watch');a.add_argument('--interval',type=int,default=30)
     a=sub.add_parser('begin');a.add_argument('--summary',required=True);a.add_argument('--stage',required=True)
     a=sub.add_parser('end');a.add_argument('--operation',required=True);a.add_argument('--result',required=True,choices=['verified','failed','unknown']);a.add_argument('--evidence',required=True)
+    a=sub.add_parser('note');a.add_argument('--stage',required=True);a.add_argument('--summary',required=True);a.add_argument('--next',required=True);a.add_argument('--evidence',default='')
     a=sub.add_parser('checkpoint');a.add_argument('--stage',required=True);a.add_argument('--summary',required=True);a.add_argument('--next',required=True)
     a=sub.add_parser('grid');a.add_argument('source',type=Path);a.add_argument('--out',type=Path,required=True);a.add_argument('--frames',type=int);a.add_argument('--ffmpeg',default='ffmpeg');a.add_argument('--ffprobe',default='ffprobe')
     args=p.parse_args();root=args.project.resolve();folder=root/'.continuidade'
@@ -240,6 +272,7 @@ def main():
     elif args.cmd=='install-claude-hooks':hooks(root)
     elif args.cmd=='hook':hook(root)
     elif args.cmd=='grid':print(json.dumps(grid(args.source,args.out,args.frames,args.ffmpeg,args.ffprobe)))
+    elif args.cmd=='note':print(json.dumps(note(root,args.stage,args.summary,args.next,args.evidence)))
     elif args.cmd=='watch':
         atomic(folder/'watcher.json',{'pid':os.getpid(),'started':now(),'interval':max(5,args.interval)})
         while True:
